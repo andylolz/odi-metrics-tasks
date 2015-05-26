@@ -378,3 +378,11 @@ cell_lookups:
       document: 2015_dashboard
       sheet: Culture
       multiplier: 1
+
+    People trained:
+      actual: O3
+      annual_target: AB3
+      ytd_target: P3:AA3
+      document: 2015_dashboard
+      sheet: Learning
+      multiplier: 1

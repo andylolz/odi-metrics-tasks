@@ -82,7 +82,19 @@ describe NetworkMetrics do
     NetworkMetrics.events_hosted(2014).should == 2
   end
 
-  it "should show number of people trained", :vcr do
+  it "should show number of people trained for 2013", :vcr do
+    NetworkMetrics.people_trained(2013, 2).should == {
+        total: 234,
+        commercial:     {
+            actual:        234,
+        },
+        non_commercial: {
+            actual:        0,
+        }
+    }
+  end
+
+  it "should show number of people trained for 2014", :vcr do
     # I know these numbers don't add up - they come from different places
     # total is new, added as a single number from the "People trained" metric
     # if set.
@@ -98,6 +110,14 @@ describe NetworkMetrics do
             annual_target: 206,
             ytd_target:    26,
         }
+    }
+  end
+
+  it "should show number of people trained for 2015", :vcr do
+    NetworkMetrics.people_trained(2015, 2).should == {
+        actual:        630,
+        annual_target: 1000,
+        ytd_target:    100,
     }
   end
 
