@@ -15,6 +15,7 @@ class NetworkMetrics
       "current-year-events-hosted"           => events_hosted(current_year),
       "current-year-people-trained"          => people_trained(current_year, current_month),
       "cumulative-people-trained"            => people_trained(nil, nil),
+      "current-year-trainers-trained"        => trainers_trained(current_year, current_month),
       "current-year-network-size"            => network_size(current_year, current_month),
       "cumulative-network-size"              => network_size(nil, nil)
     }.each_pair do |metric, value|
@@ -93,6 +94,10 @@ class NetworkMetrics
       end
       data
     end
+  end
+
+  def self.trainers_trained(year, month)
+    extract_metric 'Trainers trained', year, month, Proc.new { |x| integize(x) }
   end
 
   def self.network_size(year, month)

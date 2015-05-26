@@ -14,10 +14,11 @@ describe NetworkMetrics do
     NetworkMetrics.should_receive(:events_hosted).with(2014).once
     NetworkMetrics.should_receive(:people_trained).with(2014, 2).once
     NetworkMetrics.should_receive(:people_trained).with(nil, nil).once
+    NetworkMetrics.should_receive(:trainers_trained).with(2014, 2).once
     NetworkMetrics.should_receive(:network_size).with(2014, 2).once
     NetworkMetrics.should_receive(:network_size).with(nil, nil).once
     # How many metrics are stored?
-    NetworkMetrics.should_receive(:store_metric).exactly(8).times
+    NetworkMetrics.should_receive(:store_metric).exactly(9).times
     # Do it
     NetworkMetrics.perform
   end
@@ -123,6 +124,14 @@ describe NetworkMetrics do
 
   it "should show the cumulative number of people trained", :vcr do
     NetworkMetrics.people_trained(nil, nil).should == 936
+  end
+
+  it "should show number of trainers trained for 2015", :vcr do
+    NetworkMetrics.trainers_trained(2015, 2).should == {
+        actual:        3,
+        annual_target: 59,
+        ytd_target:    6,
+    }
   end
 
   it "should show correct network size for 2014", :vcr do
