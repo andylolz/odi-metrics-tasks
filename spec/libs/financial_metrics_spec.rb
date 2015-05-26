@@ -13,10 +13,10 @@ describe FinancialMetrics do
     FinancialMetrics.should_receive(:value).with(nil).once
     FinancialMetrics.should_receive(:income).with(2014, 2).once
     FinancialMetrics.should_receive(:income).with(nil, nil).once
-    FinancialMetrics.should_receive(:bookings).with(nil).once
+    FinancialMetrics.should_receive(:bookings).with(nil, nil).once
     FinancialMetrics.should_receive(:kpis).with(2014).once
     FinancialMetrics.should_receive(:grant_funding).with(2014, 2).once
-    FinancialMetrics.should_receive(:bookings).with(2014).once
+    FinancialMetrics.should_receive(:bookings).with(2014, 2).once
     FinancialMetrics.should_receive(:bookings_by_sector).with(2014, 2).once
     FinancialMetrics.should_receive(:headcount).with(2014, 2).once
     FinancialMetrics.should_receive(:burn_rate).with(2014, 2).once
@@ -65,11 +65,19 @@ describe FinancialMetrics do
   end
 
   it "should show correct cumulative bookings", :vcr do
-    FinancialMetrics.bookings(nil).should == 686000
+    FinancialMetrics.bookings(nil, nil).should == 686000
   end
 
-  it "should show correct bookings", :vcr do
-    FinancialMetrics.bookings(2014).should == 209000
+  it "should show correct bookings for 2014", :vcr do
+    FinancialMetrics.bookings(2014, 2).should == 209000
+  end
+
+  it "should show correct bookings for 2015", :vcr do
+    FinancialMetrics.bookings(2015, 2).should == {
+      :actual => 0,
+      :annual_target => 0,
+      :ytd_target => 0.0
+    }
   end
 
   it "should show the correct bookings by sector", :vcr do

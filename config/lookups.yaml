@@ -75,7 +75,7 @@ cell_lookups:
       document: dashboard
       multiplier: 0
     Total bookings:
-      actual: B7
+      cell_ref: B7
       sheet: 2013
       document: dashboard
       multiplier: 1
@@ -121,7 +121,7 @@ cell_lookups:
       document: dashboard
       multiplier: 1
     Total bookings:
-      actual: B7
+      cell_ref: B7
       sheet: 2014
       document: dashboard
       multiplier: 1
@@ -356,3 +356,9 @@ cell_lookups:
       document: 2015_dashboard
       sheet: Public dashboards
       multiplier: 1
+
+    Total bookings:
+      actual: G14
+      annual_target: H14
+      document: 2015_dashboard
+      sheet: Public dashboards

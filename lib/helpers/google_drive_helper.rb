@@ -10,6 +10,15 @@ module GoogleDriveHelper
     ]
   end
 
+  def extract_metric name, year, month, block
+    location = cell_location year, name
+    if location.has_key? "cell_ref"
+      metrics_cell name, year, block
+    else
+      metric_with_target name, year, month, block
+    end
+  end
+
   def metric_with_target name, year, month, block
     location             = cell_location(year, name)
     location['document'] ||= @@lookups['document_keys'][environment]['default']

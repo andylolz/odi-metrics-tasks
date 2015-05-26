@@ -14,10 +14,10 @@ class FinancialMetrics
       "cumulative-value-unlocked"            => value(nil),
       "current-year-income"                  => income(current_year, current_month),
       "cumulative-income"                    => income(nil, nil),
-      "cumulative-bookings"                  => bookings(nil),
+      "cumulative-bookings"                  => bookings(nil, nil),
       "current-year-kpi-performance"         => kpis(current_year),
       "current-year-grant-funding"           => grant_funding(current_year, current_month),
-      "current-year-bookings"                => bookings(current_year),
+      "current-year-bookings"                => bookings(current_year, current_month),
       "current-year-bookings-by-sector"      => bookings_by_sector(current_year, current_month),
       "current-year-headcount"               => headcount(current_year, current_month),
       "current-year-burn"                    => burn_rate(current_year, current_month),
@@ -45,14 +45,14 @@ class FinancialMetrics
     metrics_cell('Cash reserves', year, Proc.new {|x| floatize(x) })
   end
 
-  def self.bookings(year)
+  def self.bookings(year, month)
     block = Proc.new { |x| integize(x) }
-    if year.nil?
+    if year.nil? && month.nil?
       years.inject(0) do |memo, year|
-        memo += metrics_cell 'Total bookings', year, block, 'actual'
+        memo += metrics_total 'Total bookings', year, block
       end
     else
-      metrics_cell 'Total bookings', year, block, 'actual'
+      extract_metric 'Total bookings', year, month, block
     end
   end
 
