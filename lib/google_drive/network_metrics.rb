@@ -9,8 +9,8 @@ class NetworkMetrics
     current_year  = DateTime.now.year
     current_month = DateTime.now.month
     {
-      "current-year-reach"                   => reach(current_year),
-      "cumulative-reach"                     => reach(nil),
+      "current-year-reach"                   => reach(current_year, current_month),
+      "cumulative-reach"                     => reach(nil, nil),
       "current-year-pr-pieces"               => pr_pieces(current_year),
       "current-year-events-hosted"           => events_hosted(current_year),
       "current-year-people-trained"          => people_trained(current_year, current_month),
@@ -23,24 +23,35 @@ class NetworkMetrics
     clear_cache!
   end
 
-  def self.reach(year = nil)
-    if year.nil?
-      years.map{|year| reach(year)}.inject do |memo, reach|
+  def self.reach(year = nil, month = nil)
+    total_block = Proc.new { |x| x.class == Hash ? x[:actual] : x }
+    if year.nil? && month.nil?
+      years.map{|year| reach(year, 12)}.inject do |memo, reach|
         memo = {
-          total: memo[:total] + reach[:total],
+          total: total_block.call(memo[:total]) + total_block.call(reach[:total]),
           breakdown: {
-            active:  memo[:breakdown][:active] + reach[:breakdown][:active],
-            passive: memo[:breakdown][:passive] + reach[:breakdown][:passive],
+            active:  total_block.call(memo[:breakdown][:active]) + total_block.call(reach[:breakdown][:active]),
+            passive: total_block.call(memo[:breakdown][:passive]) + total_block.call(reach[:breakdown][:passive]),
           }
         }
       end
     else
+      integize_block = Proc.new { |x| integize(x) }
+      active  = extract_metric "Active Reach", year, month, integize_block
+      passive = extract_metric "Passive Reach", year, month, integize_block
+      if active.class == Hash && passive.class == Hash
+        total = active.inject({}) do |data, (k, v)|
+          data[k] = v + passive[k]
+          data
+        end
+      else
+        total = total_block.call(active) + total_block.call(passive)
+      end
       {
-        total:   metrics_cell("Active Reach", year, Proc.new { |x| integize(x) }) +
-                 metrics_cell("Passive Reach", year, Proc.new { |x| integize(x) }),
+        total: total,
         breakdown: {
-          active:  metrics_cell("Active Reach", year, Proc.new { |x| integize(x) }),
-          passive: metrics_cell("Passive Reach", year, Proc.new { |x| integize(x) }),
+          active:  active,
+          passive: passive,
         }
       }
     end

@@ -362,3 +362,19 @@ cell_lookups:
       annual_target: H14
       document: 2015_dashboard
       sheet: Public dashboards
+
+    Active Reach:
+      actual: P3
+      annual_target: C3
+      ytd_target: Q3:AB3
+      document: 2015_dashboard
+      sheet: Culture
+      multiplier: 1
+
+    Passive Reach:
+      actual: P51
+      annual_target: C51
+      ytd_target: Q51:AB51
+      document: 2015_dashboard
+      sheet: Culture
+      multiplier: 1

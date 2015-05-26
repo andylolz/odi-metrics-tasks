@@ -8,8 +8,8 @@ describe NetworkMetrics do
 
   it "should store right values in metrics API" do
     # Which methods are called?
-    NetworkMetrics.should_receive(:reach).with(2014).once
-    NetworkMetrics.should_receive(:reach).with(nil).once
+    NetworkMetrics.should_receive(:reach).with(2014, 2).once
+    NetworkMetrics.should_receive(:reach).with(nil, nil).once
     NetworkMetrics.should_receive(:pr_pieces).with(2014).once
     NetworkMetrics.should_receive(:events_hosted).with(2014).once
     NetworkMetrics.should_receive(:people_trained).with(2014, 2).once
@@ -33,7 +33,7 @@ describe NetworkMetrics do
   end
 
   it "should show the correct reach for 2013", :vcr do
-    NetworkMetrics.reach(2013).should == {
+    NetworkMetrics.reach(2013, 2).should == {
       :total   => 303396,
       :breakdown => {
         :active  => 10526,
@@ -43,11 +43,33 @@ describe NetworkMetrics do
   end
 
   it "should show the correct reach for 2014", :vcr do
-    NetworkMetrics.reach(2014).should == {
+    NetworkMetrics.reach(2014, 2).should == {
       :total   => 541748,
       :breakdown => {
         :active  => 13780,
         :passive => 527968,
+      }
+    }
+  end
+
+  it "should show the correct reach for 2015", :vcr do
+    NetworkMetrics.reach(2015, 2).should == {
+      :total   => {
+        actual:        3688,
+        annual_target: 1020000,
+        ytd_target:    0,
+      },
+      :breakdown => {
+        :active  => {
+          actual:        3688,
+          annual_target: 20000,
+          ytd_target:    0,
+        },
+        :passive => {
+          actual:        0,
+          annual_target: 1000000,
+          ytd_target:    0,
+        },
       }
     }
   end
