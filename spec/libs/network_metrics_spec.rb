@@ -11,6 +11,7 @@ describe NetworkMetrics do
     NetworkMetrics.should_receive(:reach).with(2014, 2).once
     NetworkMetrics.should_receive(:reach).with(nil, nil).once
     NetworkMetrics.should_receive(:pr_pieces).with(2014).once
+    NetworkMetrics.should_receive(:flagship_stories).with(2014, 2).once
     NetworkMetrics.should_receive(:events_hosted).with(2014).once
     NetworkMetrics.should_receive(:people_trained).with(2014, 2).once
     NetworkMetrics.should_receive(:people_trained).with(nil, nil).once
@@ -18,7 +19,7 @@ describe NetworkMetrics do
     NetworkMetrics.should_receive(:network_size).with(2014, 2).once
     NetworkMetrics.should_receive(:network_size).with(nil, nil).once
     # How many metrics are stored?
-    NetworkMetrics.should_receive(:store_metric).exactly(9).times
+    NetworkMetrics.should_receive(:store_metric).exactly(10).times
     # Do it
     NetworkMetrics.perform
   end
@@ -77,6 +78,14 @@ describe NetworkMetrics do
 
   it "should show the correct number of PR pieces", :vcr do
     NetworkMetrics.pr_pieces(2014).should == 99
+  end
+
+  it "should show the correct number of flagship stories for 2015", :vcr do
+    NetworkMetrics.flagship_stories(2015, 2).should == {
+        actual:        0,
+        annual_target: 0,
+        ytd_target:    0,
+    }
   end
 
   it "should show the correct number of events hosted", :vcr do
