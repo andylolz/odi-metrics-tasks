@@ -31,6 +31,7 @@ describe FinancialMetrics do
   it "should show the correct unlocked value", :vcr do
     FinancialMetrics.value(2013).should == 15210243
     FinancialMetrics.value(2014).should == 544441
+    FinancialMetrics.value(2015).should == 500000
     FinancialMetrics.value.should == 15754684
   end
 

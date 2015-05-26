@@ -342,3 +342,10 @@ cell_lookups:
       sheet: Dashboard
       document: reach
       multiplier: 1
+
+  2015:
+    Value unlocked:
+      cell_ref: G8
+      document: 2015_dashboard
+      sheet: Public dashboards
+      multiplier: 1
