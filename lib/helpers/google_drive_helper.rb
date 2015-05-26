@@ -58,6 +58,12 @@ module GoogleDriveHelper
     @@lookups['cell_lookups'][year][identifier] rescue nil
   end
 
+  def metrics_total name, year, block
+    location = cell_location(year, name)
+    ref = location.has_key?("actual") ? "actual" : "cell_ref"
+    metrics_cell name, year, block, ref
+  end
+
   def metrics_cell identifier, year, block, ref = "cell_ref"
     location             = cell_location(year, identifier)
     location['document'] ||= @@lookups['document_keys'][environment]['default']
