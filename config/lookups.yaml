@@ -402,3 +402,11 @@ cell_lookups:
       sheet: Evidence
       document: 2015_dashboard
       multiplier: 1
+
+    Headcount:
+      actual: G16
+      annual_target: H16
+      document: 2015_dashboard
+      sheet: Public dashboards
+      multiplier: 1
+      ytd_method: latest

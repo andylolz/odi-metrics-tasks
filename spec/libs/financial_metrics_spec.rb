@@ -133,11 +133,18 @@ describe FinancialMetrics do
     }
   end
 
-  it "should show headcount", :vcr do
+  it "should show headcount for 2014", :vcr do
     FinancialMetrics.headcount(2014, 2).should == {
         actual:        22.0,
         annual_target: 34.0,
         ytd_target:    26.0,
+    }
+  end
+
+  it "should show headcount for 2015", :vcr do
+    FinancialMetrics.headcount(2015, 2).should == {
+        actual:        25.0,
+        annual_target: 40.0,
     }
   end
 
