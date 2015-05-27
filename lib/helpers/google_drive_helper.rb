@@ -31,11 +31,16 @@ module GoogleDriveHelper
     data[:annual_target] = (block.call(
             metrics_worksheet(location['document'], location['sheet'])[location['annual_target']]
           ) * multiplier) if location['annual_target']
-    data[:ytd_target] = (block.call(
-            ytd_aggregator.call(
-              metrics_worksheet(location['document'], location['sheet'])[location['ytd_target']].slice(0,month)
-            )
-          ) * multiplier) if location['ytd_target']
+    if location['ytd_target']
+      data[:ytd_target] = (block.call(
+              ytd_aggregator.call(
+                metrics_worksheet(location['document'], location['sheet'])[location['ytd_target']].slice(0,month)
+              )
+            ) * multiplier)
+    elsif ytd_method == "sum" && location['annual_target']
+      # approximate ytd_target
+      data[:ytd_target] = block.call(data[:annual_target] * month / 12.0)
+    end
     data
   end
 

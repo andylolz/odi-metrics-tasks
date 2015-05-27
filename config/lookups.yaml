@@ -349,3 +349,10 @@ cell_lookups:
       document: 2015_dashboard
       sheet: Public dashboards
       multiplier: 1
+
+    Network size:
+      actual: G9
+      annual_target: H9
+      document: 2015_dashboard
+      sheet: Public dashboards
+      multiplier: 1
